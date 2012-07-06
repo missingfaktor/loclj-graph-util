@@ -1,13 +1,9 @@
 # noba
 
-FIXME: write description
+Clojure port of the game Grand Theft Wumpus from Land of Lisp.
 
-## Usage
+## Licence
 
-FIXME: write
-
-## License
-
-Copyright (C) 2012 FIXME
+Copyright (C) 2012
 
 Distributed under the Eclipse Public License, the same as Clojure.

@@ -2,10 +2,15 @@
 
 (defrecord Node [id description]
   Object
-  (toString [this]
-    (str "Node(" (:id this) ", " (:description this) ")")))
+  (toString [_]
+    (str "Node(" id ", " description ")")))
 
 (defrecord Edge [from to direction via]
   Object
-  (toString [this]
-    (str "Edge(" (:from this) " -> " (:to this) ", direction: " (:direction this) ", via: " (:via this))))
+  (toString [_]
+    (str "Edge(" from " -> " to ", direction: " direction ", via: " via)))
+
+(defrecord Graph [nodes edges]
+  Object
+  (toString [_]
+    (str "Graph(" nodes ", " edges ")")))
