@@ -14,7 +14,7 @@
 (defn dotify-label [exp]
   "If the label is longer than the max length, it gets trimmed and an ellipsis is appended at end."
   (if (> (count exp) max-label-length)
-    (str (subvec exp 0 (- max-label-length 3)) "...")
+    (str (.substring exp 0 (- max-label-length 3)) "...")
     exp))
 
 (defn dotify-node [node]
