@@ -4,22 +4,21 @@
   (:import [java.io File]
            [java.awt Color Dimension]
            [java.awt.image BufferedImage]
+           [java.awt.geom Point2D$Double]
            [javax.imageio ImageIO]
            [edu.uci.ics.jung.graph SparseGraph]
            [edu.uci.ics.jung.algorithms.layout CircleLayout]
-           [edu.uci.ics.jung.visualization VisualizationViewer]))
+           [edu.uci.ics.jung.visualization VisualizationViewer VisualizationImageServer]))
+
+(def
+  ^{:private true}
+  preferred-image-dimension
+  (Dimension. 600 600))
 
 (defn- save-graph-as-jpeg [graph file-name]
   (let [lt (CircleLayout. graph)
-        vv (VisualizationViewer. lt)
-        size (.getPreferredSize vv)
-        width (.width size)
-        height (.height size)
-        img (BufferedImage. width height BufferedImage/TYPE_INT_RGB)
-        gfx (.createGraphics img)]
-    (.fillRect gfx 0 0 width height)
-    (.paintAll vv gfx)
-    (.dispose gfx)
+        vs (VisualizationImageServer. lt preferred-image-dimension)
+        img (.getImage vs (Point2D$Double. 0 0) preferred-image-dimension)]
     (ImageIO/write img "jpeg" (File. file-name))))
 
 (defn- probe-jung []
