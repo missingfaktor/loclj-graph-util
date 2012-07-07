@@ -1,13 +1,10 @@
 (ns in.missingfaktor.noba.imagifier2
   (:require [clojure.string :as string])
-  (:use [clojure.io]))
+  (:use [clojure.java.io]))
 
 (def
   ^{:private true}
   max-label-length 30)
-
-(defn- shell [cmd]
-  (.exec (Runtime/getRuntime) cmd))
 
 (defn- join-with [f coll]
   (string/join (map f coll)))
@@ -55,10 +52,13 @@
     (dotify-edges edges)
     "}"))
 
-(defn- save-dot-as-png [dot]
+(defn- shell-exec [cmd]
+  (.exec (Runtime/getRuntime) cmd))
+
+(defn- save-dot-as-png [dot file-name]
   (with-open [wrtr (writer "test.dot")]
     (.write wrtr dot))
-  (shell "\"C:\\Program Files\\GraphViz 2.28\\bin\\dot.exe\" -O -Tpng test.dot"))
+  (shell-exec (str "\"C:\\Program Files\\GraphViz 2.28\\bin\\dot.exe\" -O -Tpng test.dot " file-name)))
 
-(defn save-graph-as-png [graph]
-  (save-dot-as-png (dotify-graph graph)))
+(defn save-graph-as-png [graph file-name]
+  (save-dot-as-png (dotify-graph graph) file-name))
