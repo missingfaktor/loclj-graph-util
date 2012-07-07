@@ -2,7 +2,7 @@
   (:use [clojure.test]
         [in.missingfaktor.noba graph dotifier game-data interface])
   (:import [java.io File]
-           [java.awt Color Dimension]
+           [java.awt Color Dimension BasicStroke]
            [java.awt.image BufferedImage]
            [java.awt.geom Point2D$Double Ellipse2D$Double]
            [javax.imageio ImageIO]
@@ -11,6 +11,7 @@
            [edu.uci.ics.jung.algorithms.layout CircleLayout]
            [edu.uci.ics.jung.visualization VisualizationViewer VisualizationImageServer]
            [edu.uci.ics.jung.visualization.decorators ToStringLabeller]
+           [edu.uci.ics.jung.visualization.renderers Renderer$VertexLabel$Position]
            [org.apache.commons.collections15.functors ConstantTransformer]))
 
 (def
@@ -18,17 +19,22 @@
   preferred-image-dimension
   (Dimension. 600 600))
 
-(defn- configure-render-context! [c]
-  (doto c
-    (.setVertexLabelTransformer (ToStringLabeller.))
-    (.setEdgeLabelTransformer (ToStringLabeller.))
-    (.setVertexShapeTransformer (ConstantTransformer. (Ellipse2D$Double. -24 -24 48 48)))
-    (.setArrowDrawPaintTransformer (ConstantTransformer. Color/GREEN))))
+(defn- configure-visualization-image-server! [vs]
+  (let [dash (float-array [10])
+        sk (ConstantTransformer. (BasicStroke. 1 BasicStroke/CAP_BUTT BasicStroke/JOIN_MITER 10 dash 0))]
+    (.. vs getRenderer getVertexLabelRenderer (setPosition Renderer$VertexLabel$Position/CNTR))
+    (doto (.getRenderContext vs)
+      (.setVertexFillPaintTransformer (ConstantTransformer. Color/YELLOW))
+      (.setVertexShapeTransformer (ConstantTransformer. (Ellipse2D$Double. -24 -24 48 48)))
+      (.setEdgeStrokeTransformer sk)
+      (.setEdgeArrowStrokeTransformer sk)
+      (.setVertexLabelTransformer (ToStringLabeller.))
+      (.setEdgeLabelTransformer (ToStringLabeller.)))))
 
 (defn- save-graph-as-jpeg [graph file-name]
   (let [lt (CircleLayout. graph)
         vs (VisualizationImageServer. lt preferred-image-dimension)]
-    (configure-render-context! (.getRenderContext vs))
+    (configure-visualization-image-server! vs)
     (let [img (.getImage vs (Point2D$Double. 0 0) preferred-image-dimension)]
       (ImageIO/write img "jpeg" (File. file-name)))))
 
