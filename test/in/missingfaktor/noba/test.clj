@@ -1,9 +1,11 @@
 (ns in.missingfaktor.noba.test
   (:use [clojure.test]
-        [in.missingfaktor.noba graph imagifier imagifier2 game-data]))
+        [in.missingfaktor.noba graph game-data])
+  (:require [in.missingfaktor.noba.imagifier :as i]
+            [in.missingfaktor.noba.imagifier2 :as i2]))
 
 ; placeholder
 (deftest imagifier-test
-  (save-graph-as-jpeg wizard-graph "testo.jpeg")
-  (save-graph-as-png wizard-graph "testo.png")
+  (i/save-graph-as-png wizard-graph "testo1.png")
+  (i2/save-graph-as-png wizard-graph "testo2.png")
   (is true true))
