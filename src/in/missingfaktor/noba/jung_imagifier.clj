@@ -1,4 +1,4 @@
-(ns in.missingfaktor.noba.imagifier
+(ns in.missingfaktor.noba.jung-imagifier
   "This module contains functions for generating an image from a given graph."
   (:import [java.io File]
            [java.awt Color Dimension BasicStroke]

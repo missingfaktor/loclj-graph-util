@@ -1,4 +1,4 @@
-(ns in.missingfaktor.noba.imagifier2
+(ns in.missingfaktor.noba.graphviz-imagifier
   (:require [clojure.string :as string])
   (:use [clojure.java.io]))
 
