@@ -58,7 +58,7 @@
 (defn- save-dot-as-png [dot file-name]
   (with-open [wrtr (writer "test.dot")]
     (.write wrtr dot))
-  (shell-exec (str "\"C:\\Program Files\\GraphViz 2.28\\bin\\dot.exe\" -O -Tpng test.dot " file-name)))
+  (shell-exec (str "\"C:\\Program Files\\GraphViz 2.28\\bin\\dot.exe\" -Tpng test.dot -o " file-name)))
 
 (defn save-graph-as-png [graph file-name]
   (save-dot-as-png (dotify-graph graph) file-name))
