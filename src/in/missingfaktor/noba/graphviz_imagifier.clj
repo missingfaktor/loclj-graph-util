@@ -62,3 +62,37 @@
 
 (defn save-graph-as-png [graph file-name]
   (save-dot-as-png (dotify-graph graph) file-name))
+
+;;;;;;;;; Undirected-graph counterparts ;;;;;;;;;
+
+; These are indicated with a prime sign.
+
+
+; Similar to tails in Haskell, except the output doesn't include an empty sequence.
+(defn- rests [coll]
+  (take (count coll) (iterate rest coll)))
+
+
+(defn- dotify-edges' [edges]
+  (string/join (for [edge-list (rests edges)
+                     edge edge-list]
+                 (if (some (fn [e] (= (:from e) (:from edge))) (rest edge-list))
+                   ""
+                   (str
+                     \newline
+                     (dotify-identifier (-> edge-list second str))
+                     "--"
+                     (dotify-identifier (-> edge :from name))
+                     "[label=\""
+                     (dotify-label (str "(" (:direction edge) ", " (:via edge) ")"))
+                     "\"];")))))
+
+(defn dotify-graph' [{:keys [nodes edges]}]
+  (str
+    "graph{"
+    (dotify-nodes nodes)
+    (dotify-edges' edges)
+    "}"))
+
+(defn save-graph-as-png' [graph file-name]
+  (save-graph-as-png (dotify-graph' graph) file-name))
