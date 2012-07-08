@@ -1,9 +1,8 @@
-(ns in.missingfaktor.noba.graphviz-imagifier
+(ns noba.graphviz-imagifier
   (:require [clojure.string :as string])
-  (:import [in.missingfaktor.noba.graph Edge])
   (:use [clojure.java.io]
         [clojure.pprint]
-        [in.missingfaktor.noba.graph :only [fold-orientation]]))
+        [noba.data-structures :only [fold-orientation]]))
 
 (def
   ^{:private true}
@@ -25,8 +24,9 @@
 (defn- dotify-identifier [exp]
   (join-with dotify-char exp))
 
-(defn- dotify-label [exp]
+(defn- dotify-label
   "If the label is longer than the max length, it gets trimmed and an ellipsis is appended at end."
+  [exp]
   (if (> (count exp) max-label-length)
     (str (.substring exp 0 (- max-label-length 3)) "...")
     exp))
@@ -80,4 +80,3 @@
 
 (defn save-graph-as-png [orientation file-name graphviz-command graph]
   (save-dot-as-png file-name graphviz-command (dotify-graph orientation graph)))
-

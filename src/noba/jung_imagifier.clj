@@ -1,6 +1,6 @@
-(ns in.missingfaktor.noba.jung-imagifier
+(ns noba.jung-imagifier
   "This module contains functions for generating an image from a given graph."
-  (:use [in.missingfaktor.noba.graph :only [fold-orientation]])
+  (:use [noba.data-structures :only [fold-orientation]])
   (:import [java.io File]
            [java.awt Color Dimension BasicStroke]
            [java.awt.image BufferedImage]

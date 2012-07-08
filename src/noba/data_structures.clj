@@ -1,4 +1,6 @@
-(ns in.missingfaktor.noba.graph)
+(ns noba.data-structures)
+
+(def orientations [:directed :undirected]) ; currently not used anywhere.
 
 (defn fold-orientation [if-directed if-undirected orientation]
   (case orientation
