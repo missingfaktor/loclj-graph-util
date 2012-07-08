@@ -1,5 +1,6 @@
 (ns in.missingfaktor.noba.jung-imagifier
   "This module contains functions for generating an image from a given graph."
+  (:use [in.missingfaktor.noba.graph :only [fold-orientation]])
   (:import [java.io File]
            [java.awt Color Dimension BasicStroke]
            [java.awt.image BufferedImage]
@@ -31,13 +32,12 @@
       (.setEdgeLabelTransformer (ToStringLabeller.)))))
 
 (defn- graph>jung-graph [orientation {:keys [nodes edges]}]
-  (let [jung-graph (SparseGraph.)]
+  (let [jung-graph (SparseGraph.)
+        edge-type (fold-orientation EdgeType/DIRECTED EdgeType/UNDIRECTED orientation)]
     (doseq [node nodes]
       (.addVertex jung-graph (:id node)))
     (doseq [{:keys [from to direction via]} edges]
-      (case orientation
-        :directed (.addEdge jung-graph (str direction via) from to EdgeType/DIRECTED)
-        :undirected (.addEdge jung-graph (str direction via) from to)))
+      (.addEdge jung-graph (str direction via) from to edge-type))
     jung-graph))
 
 (defn- save-jung-graph-as-png [jung-graph file-name]

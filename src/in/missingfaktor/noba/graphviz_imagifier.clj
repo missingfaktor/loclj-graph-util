@@ -2,7 +2,8 @@
   (:require [clojure.string :as string])
   (:import [in.missingfaktor.noba.graph Edge])
   (:use [clojure.java.io]
-        [clojure.pprint]))
+        [clojure.pprint]
+        [in.missingfaktor.noba.graph :only [fold-orientation]]))
 
 (def
   ^{:private true}
@@ -45,16 +46,14 @@
   (str
     \newline
     (dotify-identifier (name from))
-    (case orientation
-      :directed " -> "
-      :undirected " -- ")
+    (fold-orientation " -> " " -- " orientation)
     (dotify-identifier (name to))
     "[label=\""
     (dotify-label (str "(" direction ", " via ")"))
     "\"];"))
 
 (defn- dotify-directed-edges [edges]
-  (join-with (partial dotify-edge :directed) edges))
+  (join-with (partial dotify-edge :directed ) edges))
 
 (defn- dotify-undirected-edges [edges]
   (let [edge-groupings (seq (group-by :from edges))]
@@ -65,23 +64,19 @@
                      (dotify-edge :undirected edge))))))
 
 (defn- dotify-edges [orientation edges]
-  (case orientation
-    :directed (dotify-directed-edges edges)
-    :undirected (dotify-undirected-edges edges)))
+  ((fold-orientation dotify-directed-edges dotify-undirected-edges orientation) edges))
 
 (defn- dotify-graph [orientation {:keys [nodes edges]}]
   (str
-    (case orientation
-      :directed "digraph {"
-      :undirected "graph {")
+    (fold-orientation "digraph {" "graph {" orientation)
     (dotify-nodes nodes)
     (dotify-edges orientation edges)
     "}"))
 
 (defn- save-dot-as-png [dot file-name]
-  (with-open [wrtr (writer "test.dot")]
-    (.write wrtr dot))
-  (shell-exec (str "\"C:\\Program Files\\GraphViz 2.28\\bin\\dot.exe\" -Tpng test.dot -o " file-name)))
+  (let [dot-file-name (str file-name ".dot")]
+    (spit dot-file-name dot)
+    (shell-exec (str "\"C:\\Program Files\\GraphViz 2.28\\bin\\dot.exe\" -Tpng " dot-file-name " -o " file-name))))
 
 (defn save-graph-as-png [orientation graph file-name]
   (save-dot-as-png (dotify-graph orientation graph) file-name))

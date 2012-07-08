@@ -1,6 +1,10 @@
 (ns in.missingfaktor.noba.graph)
 
-(def graph-orientations [:directed :undirected])
+(defn fold-orientation [if-directed if-undirected orientation]
+  (case orientation
+    :directed if-directed
+    :undirected if-undirected
+    (throw (RuntimeException. "Invalid orientation value."))))
 
 (defrecord Node [id description]
   Object
