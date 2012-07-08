@@ -40,12 +40,12 @@
       (.addEdge jung-graph (str direction via) from to edge-type))
     jung-graph))
 
-(defn- save-jung-graph-as-png [jung-graph file-name]
+(defn- save-jung-graph-as-png [file-name jung-graph]
   (let [lt (CircleLayout. jung-graph)
         vs (VisualizationImageServer. lt preferred-image-dimension)]
     (configure-visualization-image-server! vs)
     (let [img (.getImage vs (Point2D$Double. 0 0) preferred-image-dimension)]
       (ImageIO/write img "png" (File. file-name)))))
 
-(defn save-graph-as-png [orientation graph file-name]
-  (save-jung-graph-as-png (graph>jung-graph orientation graph) file-name))
+(defn save-graph-as-png [orientation file-name graph]
+  (save-jung-graph-as-png file-name (graph>jung-graph orientation graph)))

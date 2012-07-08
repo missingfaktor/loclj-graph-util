@@ -73,11 +73,11 @@
     (dotify-edges orientation edges)
     "}"))
 
-(defn- save-dot-as-png [dot file-name]
+(defn- save-dot-as-png [file-name graphviz-command dot]
   (let [dot-file-name (str file-name ".dot")]
     (spit dot-file-name dot)
-    (shell-exec (str "\"C:\\Program Files\\GraphViz 2.28\\bin\\dot.exe\" -Tpng " dot-file-name " -o " file-name))))
+    (shell-exec (str graphviz-command " -Tpng " dot-file-name " -o " file-name))))
 
-(defn save-graph-as-png [orientation graph file-name]
-  (save-dot-as-png (dotify-graph orientation graph) file-name))
+(defn save-graph-as-png [orientation file-name graphviz-command graph]
+  (save-dot-as-png file-name graphviz-command (dotify-graph orientation graph)))
 
