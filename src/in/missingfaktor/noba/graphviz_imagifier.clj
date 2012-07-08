@@ -80,9 +80,9 @@
                    ""
                    (str
                      \newline
-                     (dotify-identifier (-> edge-list second str))
+                     (-> edge-list first :to name dotify-identifier)
                      "--"
-                     (dotify-identifier (-> edge :from name))
+                     (-> edge :from name dotify-identifier)
                      "[label=\""
                      (dotify-label (str "(" (:direction edge) ", " (:via edge) ")"))
                      "\"];")))))
