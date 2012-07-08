@@ -1,6 +1,6 @@
-(ns noba.jung-imagifier
+(ns loclj-graph-util.jung-imagifier
   "This module contains functions for generating an image from a given graph."
-  (:use [noba.data-structures :only [fold-orientation]])
+  (:use [loclj-graph-util.data-structures :only [fold-orientation]])
   (:import [java.io File]
            [java.awt Color Dimension BasicStroke]
            [java.awt.image BufferedImage]

@@ -1,4 +1,4 @@
-(ns noba.data-structures)
+(ns loclj-graph-util.data-structures)
 
 (def orientations [:directed :undirected]) ; currently not used anywhere.
 

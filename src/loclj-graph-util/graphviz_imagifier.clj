@@ -1,8 +1,8 @@
-(ns noba.graphviz-imagifier
+(ns loclj-graph-util.graphviz-imagifier
   (:require [clojure.string :as string])
   (:use [clojure.java.io]
         [clojure.pprint]
-        [noba.data-structures :only [fold-orientation]]))
+        [loclj-graph-util.data-structures :only [fold-orientation]]))
 
 (def
   ^{:private true}

@@ -1,9 +1,9 @@
-(ns noba.test
+(ns loclj-graph-util.test
   (:use [clojure.test]
-        [noba.data-structures])
-  (:require [noba.jung-imagifier :as ju]
-            [noba.graphviz-imagifier :as gv])
-  (:import [noba.data_structures Node Edge Graph])) ; ☜ That underscore over there makes me sad.
+        [loclj-graph-util.data-structures])
+  (:require [loclj-graph-util.jung-imagifier :as ju]
+            [loclj-graph-util.graphviz-imagifier :as gv])
+  (:import [loclj-graph-util.data_structures Node Edge Graph])) ; ☜ That underscore over there makes me sad.
 
 (def wizard-nodes [(Node. :living-room "You are in the living room. A wizard is snoring loudly at the couch.")
                    (Node. :garden "You are in a garden full of gnomes, and that is creeping you out.")
