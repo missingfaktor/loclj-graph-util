@@ -95,4 +95,4 @@
     "}"))
 
 (defn save-graph-as-png' [graph file-name]
-  (save-graph-as-png (dotify-graph' graph) file-name))
+  (save-dot-as-png (dotify-graph' graph) file-name))

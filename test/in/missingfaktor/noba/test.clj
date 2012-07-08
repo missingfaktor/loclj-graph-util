@@ -7,7 +7,7 @@
 ; placeholder
 (deftest imagifier-test
   (println (gi/dotify-graph' wizard-graph))
-  (gi/save-graph-as-png' wizard-graph "utesto2.png")
   (ji/save-graph-as-png wizard-graph "testo1.png")
   (gi/save-graph-as-png wizard-graph "testo2.png")
+  (gi/save-graph-as-png' wizard-graph "utesto2.png")
   (is true true))
