@@ -74,16 +74,16 @@
     (string/join (for [lst (rests edge-groupings)
                        edge (second (first lst))
                        :let [{:keys [from to direction via]} edge]]
-                     (if (some #(= to (first %)) (rest lst))
-                       ""
-                       (str
-                         \newline
-                         (-> from name dotify-identifier)
-                         "--"
-                         (-> to name dotify-identifier)
-                         "[label=\""
-                         (dotify-label (str "(" direction ", " via ")"))
-                         "\"];"))))))
+                   (if (some #(= to (first %)) (rest lst))
+                     ""
+                     (str
+                       \newline
+                       (-> from name dotify-identifier)
+                       "--"
+                       (-> to name dotify-identifier)
+                       "[label=\""
+                       (dotify-label (str "(" direction ", " via ")"))
+                       "\"];"))))))
 
 (defn dotify-undirected-graph [{:keys [nodes edges]}]
   (str

@@ -30,12 +30,14 @@
       (.setVertexLabelTransformer (ToStringLabeller.))
       (.setEdgeLabelTransformer (ToStringLabeller.)))))
 
-(defn- graph>jung-graph [{:keys [nodes edges]}]
+(defn- graph>jung-graph [{:keys [nodes edges]} graph-type-by-orientation]
   (let [jung-graph (SparseGraph.)]
     (doseq [node nodes]
       (.addVertex jung-graph (:id node)))
     (doseq [{:keys [from to direction via]} edges]
-      (.addEdge jung-graph (str direction via) from to EdgeType/DIRECTED))
+      (case graph-type-by-orientation
+        :directed (.addEdge jung-graph (str direction via) from to EdgeType/DIRECTED)
+        :undirected (.addEdge jung-graph (str direction via) from to)))
     jung-graph))
 
 (defn- save-jung-graph-as-png [jung-graph file-name]
@@ -46,4 +48,7 @@
       (ImageIO/write img "png" (File. file-name)))))
 
 (defn save-graph-as-png [graph file-name]
-  (save-jung-graph-as-png (graph>jung-graph graph) file-name))
+  (save-jung-graph-as-png (graph>jung-graph graph :directed) file-name))
+
+(defn save-undirected-graph-as-png [graph file-name]
+  (save-jung-graph-as-png (graph>jung-graph graph :undirected) file-name))

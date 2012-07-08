@@ -9,5 +9,6 @@
   (println (gi/dotify-undirected-graph wizard-graph))
   (ji/save-graph-as-png wizard-graph "testo1.png")
   (gi/save-graph-as-png wizard-graph "testo2.png")
+  (ji/save-undirected-graph-as-png wizard-graph "utesto1.png")
   (gi/save-undirected-graph-as-png wizard-graph "utesto2.png")
   (is true true))
