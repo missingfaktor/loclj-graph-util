@@ -3,7 +3,7 @@
         [loclj-graph-util.data-structures])
   (:require [loclj-graph-util.jung-imagifier :as ju]
             [loclj-graph-util.graphviz-imagifier :as gv])
-  (:import [loclj-graph-util.data_structures Node Edge Graph])) ; ☜ That underscore over there makes me sad.
+  (:import [loclj_graph_util.data_structures Node Edge Graph])) ; ☜ Those underscores make me sad.
 
 (def wizard-nodes [(Node. :living-room "You are in the living room. A wizard is snoring loudly at the couch.")
                    (Node. :garden "You are in a garden full of gnomes, and that is creeping you out.")
