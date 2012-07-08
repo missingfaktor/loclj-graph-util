@@ -1,5 +1,7 @@
 (ns in.missingfaktor.noba.graph)
 
+(def graph-orientations [:directed :undirected])
+
 (defrecord Node [id description]
   Object
   (toString [_]
