@@ -7,7 +7,7 @@
 
 (def wizard-edges [(Edge. :living-room :garden :west :door )
                    (Edge. :living-room :attic :upstairs :ladder )
-                   (Edge. :attic :living-room :east :door )
+                   (Edge. :garden :living-room :east :door )
                    (Edge. :attic :living-room :downstairs :ladder )])
 
 (def wizard-graph (Graph. wizard-nodes wizard-edges))

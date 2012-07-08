@@ -1,6 +1,8 @@
 (ns in.missingfaktor.noba.graphviz-imagifier
   (:require [clojure.string :as string])
-  (:use [clojure.java.io]))
+  (:import [in.missingfaktor.noba.graph Edge])
+  (:use [clojure.java.io]
+        [clojure.pprint]))
 
 (def
   ^{:private true}
@@ -72,20 +74,26 @@
 (defn- rests [coll]
   (take (count coll) (iterate rest coll)))
 
+(defn tap [desc x]
+  (println desc)
+  (println x)
+  x)
 
 (defn- dotify-edges' [edges]
-  (string/join (for [edge-list (rests edges)
-                     edge edge-list]
-                 (if (some (fn [e] (= (:from e) (:from edge))) (rest edge-list))
-                   ""
-                   (str
-                     \newline
-                     (-> edge-list first :to name dotify-identifier)
-                     "--"
-                     (-> edge :from name dotify-identifier)
-                     "[label=\""
-                     (dotify-label (str "(" (:direction edge) ", " (:via edge) ")"))
-                     "\"];")))))
+  (let [edge-groupings (seq (group-by :from edges))]
+    (string/join (for [lst (rests edge-groupings)
+                       edge (second (first lst))
+                       :let [{:keys [from to direction via]} edge]]
+                     (if (some #(= to (first %)) (rest lst))
+                       ""
+                       (str
+                         \newline
+                         (-> from name dotify-identifier)
+                         "--"
+                         (-> to name dotify-identifier)
+                         "[label=\""
+                         (dotify-label (str "(" direction ", " via ")"))
+                         "\"];"))))))
 
 (defn dotify-graph' [{:keys [nodes edges]}]
   (str
