@@ -8,17 +8,17 @@
     :undirected if-undirected
     (throw (RuntimeException. "Invalid orientation value."))))
 
-(defrecord Node [id description]
-  Object
-  (toString [_]
-    (str "Node(" id ", " description ")")))
+(defmacro defrecord*
+  "Defines a record with a string representation in the following format:
+    class-name(arg1: val1, arg2: val2, ..)"
+  [rname args]
+  `(defrecord ~rname [~@args]
+     Object
+     (toString [_]
+       (str '~rname "(" ~@(interpose ", " (mapcat (fn [arg] [(str arg ": ") arg]) args)) ")"))))
 
-(defrecord Edge [from to direction via]
-  Object
-  (toString [_]
-    (str "Edge(" from " -> " to ", direction: " direction ", via: " via)))
+(defrecord* Node [id description])
 
-(defrecord Graph [nodes edges]
-  Object
-  (toString [_]
-    (str "Graph(" nodes ", " edges ")")))
+(defrecord* Edge [from to direction via])
+
+(defrecord* Graph [nodes edges])
